@@ -507,7 +507,7 @@ fail:
 
 static void *kvmemdup(const void *src, size_t len)
 {
-	void *p = kvmalloc(len);
+	void *p = kvmalloc(len ,0);
 
 	if (p)
 		memcpy(p, src, len);

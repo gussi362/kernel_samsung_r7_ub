@@ -666,7 +666,6 @@ out:
 	return error;
 
 fail:
-
 	aad(&sa)->label = aa_begin_current_label(DO_UPDATE);
 	aad(&sa)->info = name;
 	aad(&sa)->error = error = -EINVAL;
@@ -674,7 +673,6 @@ fail:
 	aa_end_current_label(aad(&sa)->label);
 	goto out;
 }
-
 
 /**
  * apparmor_bprm_committing_creds - do task cleanup on committing new creds
@@ -708,14 +706,13 @@ void apparmor_bprm_committed_creds(struct linux_binprm *bprm)
 	return;
 }
 
-
 static int apparmor_task_setrlimit(struct task_struct *task,
 		unsigned int resource, struct rlimit *new_rlim)
 {
 	struct aa_label *label = aa_begin_current_label(NO_UPDATE);
 	int error = 0;
 
-if (!unconfined(label))
+	if (!unconfined(label))
 		error = aa_task_setrlimit(label, task, resource, new_rlim);
 	aa_end_current_label(label);
 
@@ -1015,8 +1012,10 @@ static int apparmor_socket_shutdown(struct socket *sock, int how)
  * apparmor_socket_sock_recv_skb - check perms before associating skb to sk
  *
  * Note: can not sleep maybe called with locks held
+
 dont want protocol specific in __skb_recv_datagram()
 to deny an incoming connection  socket_sock_rcv_skb()
+
  */
 static int apparmor_socket_sock_rcv_skb(struct sock *sk, struct sk_buff *skb)
 {
@@ -1144,13 +1143,11 @@ static int apparmor_task_kill(struct task_struct *target, struct siginfo *info,
 	return error;
 }
 
-
 #ifndef LSM_HOOKS_NAME
 #define LSM_HOOKS_NAME(X) //.name =	(X),
 #endif
 static struct security_hook_list apparmor_hooks[] = {
 	LSM_HOOKS_NAME("apparmor")
-
 
 	LSM_HOOK_INIT(ptrace_access_check, apparmor_ptrace_access_check),
 	LSM_HOOK_INIT(ptrace_traceme, apparmor_ptrace_traceme),
@@ -1162,7 +1159,7 @@ static struct security_hook_list apparmor_hooks[] = {
 	LSM_HOOK_INIT(sb_mount, apparmor_sb_mount),
 	LSM_HOOK_INIT(sb_umount, apparmor_sb_umount),
 	LSM_HOOK_INIT(sb_pivotroot, apparmor_sb_pivotroot),
-	
+
 	LSM_HOOK_INIT(path_link, apparmor_path_link),
 	LSM_HOOK_INIT(path_unlink, apparmor_path_unlink),
 	LSM_HOOK_INIT(path_symlink, apparmor_path_symlink),
@@ -1176,14 +1173,12 @@ static struct security_hook_list apparmor_hooks[] = {
 	LSM_HOOK_INIT(inode_getattr, apparmor_inode_getattr),
 
 	LSM_HOOK_INIT(file_open, apparmor_file_open),
-
 	LSM_HOOK_INIT(file_receive, apparmor_file_receive),
 	LSM_HOOK_INIT(file_permission, apparmor_file_permission),
 	LSM_HOOK_INIT(file_alloc_security, apparmor_file_alloc_security),
 	LSM_HOOK_INIT(file_free_security, apparmor_file_free_security),
 	LSM_HOOK_INIT(mmap_file, apparmor_mmap_file),
 	LSM_HOOK_INIT(mmap_addr, cap_mmap_addr),
-	
 	LSM_HOOK_INIT(file_mprotect, apparmor_file_mprotect),
 	LSM_HOOK_INIT(file_lock, apparmor_file_lock),
 

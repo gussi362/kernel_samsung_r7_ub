@@ -13,7 +13,7 @@
 
 #ifndef __APPARMOR_CRYPTO_H
 #define __APPARMOR_CRYPTO_H
-
+#define SHA512_DIGEST_LENGTH   64
 #include "policy.h"
 
 #ifdef CONFIG_SECURITY_APPARMOR_HASH
