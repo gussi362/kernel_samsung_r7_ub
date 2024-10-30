@@ -68,6 +68,7 @@ char *aa_split_fqname(char *args, char **ns_name);
 void aa_info_message(const char *str);
 void *__aa_kvmalloc(size_t size, gfp_t flags);
 
+/*
 static inline void *kvmalloc(size_t size)
 {
 	return __aa_kvmalloc(size, 0);
@@ -77,7 +78,7 @@ static inline void *kvzalloc(size_t size)
 {
 	return __aa_kvmalloc(size, __GFP_ZERO);
 }
-
+*/
 /* returns 0 if kref not incremented */
 static inline int kref_get_not0(struct kref *kref)
 {
