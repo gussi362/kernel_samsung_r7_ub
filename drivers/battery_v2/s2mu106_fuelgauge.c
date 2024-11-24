@@ -1792,7 +1792,7 @@ static int s2mu106_fg_get_property(struct power_supply *psy,
 	enum power_supply_ext_property ext_psp = (enum power_supply_ext_property) psp;
 
 	switch (psp) {
-	case POWER_SUPPLY_PROP_STATUS:
+/*	case POWER_SUPPLY_PROP_STATUS: */
 	case POWER_SUPPLY_PROP_CHARGE_FULL:
 		return -ENODATA;
 	case POWER_SUPPLY_PROP_ENERGY_NOW:
@@ -1983,7 +1983,7 @@ static int s2mu106_fg_set_property(struct power_supply *psy,
 	enum power_supply_ext_property ext_psp = (enum power_supply_ext_property) psp;
 
 	switch (psp) {
-		case POWER_SUPPLY_PROP_STATUS:
+/*		case POWER_SUPPLY_PROP_STATUS:*/
 #if defined(CONFIG_BATTERY_AGE_FORECAST)
 			if (val->intval == POWER_SUPPLY_STATUS_FULL)
 				s2mu106_fg_aging_check(fuelgauge, fuelgauge->change_step);

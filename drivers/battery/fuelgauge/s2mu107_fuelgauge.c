@@ -1624,7 +1624,7 @@ static int s2mu107_fg_get_property(struct power_supply *psy,
 	struct timespec c_ts = {0, };
 
 	switch (psp) {
-	case POWER_SUPPLY_PROP_STATUS:
+	/*case POWER_SUPPLY_PROP_STATUS:*/
 	case POWER_SUPPLY_PROP_CHARGE_FULL:
 		return -ENODATA;
 	case POWER_SUPPLY_PROP_CHARGE_COUNTER:
@@ -1813,7 +1813,7 @@ static int s2mu107_fg_set_property(struct power_supply *psy,
 	u8 temp = 0;
 
 	switch (psp) {
-		case POWER_SUPPLY_PROP_STATUS:
+/*		case POWER_SUPPLY_PROP_STATUS:*/
 #if defined(CONFIG_BATTERY_AGE_FORECAST)
 			if (val->intval == POWER_SUPPLY_STATUS_FULL)
 				s2mu107_fg_aging_check(fuelgauge, fuelgauge->change_step);
