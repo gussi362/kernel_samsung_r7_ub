@@ -192,7 +192,7 @@ int fimc_is_sensor_g_module(struct fimc_is_device_sensor *device,
 	int ret = 0;
 
 	FIMC_BUG(!device);
-
+	// merr("device g_module name is " ,dev_name(*device));
 	if (!device->subdev_module) {
 		merr("sub module is NULL", device);
 		ret = -EINVAL;

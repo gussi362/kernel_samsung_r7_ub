@@ -33,7 +33,12 @@
 int v4l2_device_register(struct device *dev, struct v4l2_device *v4l2_dev)
 {
 	if (v4l2_dev == NULL)
-		return -EINVAL;
+		{
+	
+        pr_err("v4l2_device_register: v4l2_dev is NULL\n");
+        return -EINVAL;
+    
+		}
 
 	INIT_LIST_HEAD(&v4l2_dev->subdevs);
 	spin_lock_init(&v4l2_dev->lock);

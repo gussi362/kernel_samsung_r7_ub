@@ -1236,12 +1236,12 @@ int fimc_is_video_probe(struct fimc_is_video *video,
 	video_id = EXYNOS_VIDEONODE_FIMC_IS + video_number;
 	ret = video_register_device(&video->vd, VFL_TYPE_GRABBER, video_id);
 	if (ret) {
-		err("[V%02d] Failed to register video device", video->id);
+		err("[V%02d] is-video Failed to register video device", video->id);
 		goto p_err;
 	}
 
 p_err:
-	info("[VID] %s(%d) is created. minor(%d)\n", video_name, video_id, video->vd.minor);
+	info("[VID] %s(%d) is-video is created. minor(%d)\n", video_name, video_id, video->vd.minor);
 	return ret;
 }
 

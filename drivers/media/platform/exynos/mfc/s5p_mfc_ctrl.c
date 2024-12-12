@@ -138,9 +138,17 @@ static int mfc_init_hw(struct s5p_mfc_dev *dev, enum mfc_buf_usage_type buf_type
 	}
 
 	if (buf_type == MFCBUF_DRM && !curr_ctx_is_drm_backup) {
-		s5p_mfc_pm_clock_off(dev);
-		dev->curr_ctx_is_drm = curr_ctx_is_drm_backup;
-		s5p_mfc_pm_clock_on_with_base(dev, MFCBUF_NORMAL);
+		
+		/* Must not change clocks if this is not the first instance */
+			if (curr_ctx_is_drm_backup > 0) {
+				s5p_mfc_init_memctrl(dev, MFCBUF_DRM);
+			} else {
+				s5p_mfc_pm_clock_off(dev);
+				dev->curr_ctx_is_drm = curr_ctx_is_drm_backup;
+				s5p_mfc_pm_clock_on_with_base(dev, MFCBUF_NORMAL);
+			}
+		
+	
 	}
 #endif
 

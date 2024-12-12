@@ -10,7 +10,7 @@ else
 fi
 
 PATH="$(pwd)/../neutron-clang/bin:$PATH"
-KBUILD_COMPILER_STRING="$($(pwd)/../neutron-clang/bin/clang --version | head -n 1 | perl -pe 's/\((?:http|git).*?\)//gs' | sed -e 's/  */ /g' -e 's/[[:space:]]*$//')"
+#KBUILD_COMPILER_STRING="$($(pwd)/../neutron-clang/bin/clang --version | head -n 1 | perl -pe 's/\((?:http|git).*?\)//gs' | sed -e 's/  */ /g' -e 's/[[:space:]]*$//')"
 
 
 export PATH
@@ -44,10 +44,10 @@ kmake() {
 }
 
 dtmake() {
-python2 libufdt/utils/src/mkdtboimg.py cfg_create \
+python2 ./libufdt/utils/src/mkdtboimg.py cfg_create \
     out/arch/arm64/boot/dts/dtbo.img \
     --dtb-dir out/arch/arm64/boot/dts/samsung build/r7.cfg
-python2 libufdt/utils/src/mkdtboimg.py cfg_create \
+python2 ./libufdt/utils/src/mkdtboimg.py cfg_create \
     out/arch/arm64/boot/dts/dtb.img \
     --dtb-dir out/arch/arm64/boot/dts/exynos build/exynos9810.cfg
 }
@@ -64,5 +64,5 @@ pack() {
 
 # Export shell functions
 export kmake
-#export dtmake
+export dtmake
 export pack

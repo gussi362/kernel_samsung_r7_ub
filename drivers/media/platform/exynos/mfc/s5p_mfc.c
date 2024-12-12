@@ -961,14 +961,15 @@ static struct video_device *mfc_video_device_register(struct s5p_mfc_dev *dev,
 	vfd->vfl_dir = VFL_DIR_M2M;
 
 	snprintf(vfd->name, sizeof(vfd->name), "%s%d", vfd->name, dev->id);
+	/*node_num = node_num + 8;0+8*/
 
 	ret = video_register_device(vfd, VFL_TYPE_GRABBER, node_num + 60 * dev->id);
 	if (ret) {
-		v4l2_err(&dev->v4l2_dev, "Failed to register video device /dev/video%d\n", node_num);
+		v4l2_err(&dev->v4l2_dev, "s5ff Failed to register video device /dev/video%d\n", node_num);
 		video_device_release(vfd);
 		return NULL;
 	}
-	v4l2_info(&dev->v4l2_dev, "video device registered as /dev/video%d\n",
+	v4l2_info(&dev->v4l2_dev, " s5ff video device registered as /dev/video%d\n",
 								vfd->num);
 	video_set_drvdata(vfd, dev);
 

@@ -121,7 +121,12 @@ static int fimc_is_ixs_video_open(struct file *file)
 
 	vctx = NULL;
 	device = NULL;
+	/* currently resourcemanager is null why ? i don't know ,it's ethier we can't access *file or it's early access before init of video nodes which should be handled by probe functions let's do msleep and check*/
+	msleep(100);
+
 	video = video_drvdata(file);
+	err("is_ixs_video_open File path: %s\n", file->f_path.dentry->d_name.name);
+	err("video_drvdata resolved to: %p\n", video);
 	resourcemgr = video->resourcemgr;
 	if (!resourcemgr) {
 		err("resourcemgr is NULL");
@@ -261,17 +266,38 @@ const struct v4l2_file_operations fimc_is_ixs_video_fops = {
 static int fimc_is_ixs_video_querycap(struct file *file, void *fh,
 					struct v4l2_capability *cap)
 {
-	struct fimc_is_core *isp = video_drvdata(file);
+	// struct fimc_is_core *isp = video_drvdata(file);
+	struct fimc_is_video *video = video_drvdata(file);
+	
 
-	strncpy(cap->driver, isp->pdev->name, sizeof(cap->driver) - 1);
+	FIMC_BUG(!video);
+	FIMC_BUG(!cap);
 
-	strncpy(cap->card, isp->pdev->name, sizeof(cap->card) - 1);
+	// strncpy(cap->driver, isp->pdev->name, sizeof(cap->driver) - 1);
+
+	// strncpy(cap->card, isp->pdev->name, sizeof(cap->card) - 1);
+	//add cehck ? if not null ,bad video plugin for gstreamer ,what's our color format here ?v4l2- bad multiplaner?
+	//and now it works ,ist the /dev/gpio,iio permissions ? or what idk we will test and if it works with no problem we will move on
+snprintf(cap->driver, sizeof(cap->driver), "%s", video->vd.name);
+	snprintf(cap->card, sizeof(cap->card), "%s", video->vd.name);
+
+	err("querycap did copy for %s\n", file->f_path.dentry->d_name.name);
 
 	cap->capabilities |= V4L2_CAP_STREAMING
 				| V4L2_CAP_VIDEO_OUTPUT
 				| V4L2_CAP_VIDEO_OUTPUT_MPLANE;
 	cap->device_caps |= cap->capabilities;
-
+err("Driver Name: %s\n", cap->driver);
+    err("Card Name: %s\n", cap->card);
+    err("Bus Info: %s\n", cap->bus_info);
+    err("Driver Version: %u.%u.%u\n",
+           (cap->version >> 16) & 0xFF,
+           (cap->version >> 8) & 0xFF,
+           cap->version & 0xFF);
+    err("Capabilities: 0x%x\n", cap->capabilities);
+    err("Device-Specific Capabilities: 0x%x\n", cap->device_caps);
+	err("File from querycap path: %s\n", file->f_path.dentry->d_name.name);
+	
 	return 0;
 }
 
